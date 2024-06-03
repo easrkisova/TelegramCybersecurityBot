@@ -2,7 +2,7 @@ import telebot
 from telebot import types
 from random import choice
 
-bot = telebot.TeleBot('YOUR TOKEN')
+bot = telebot.TeleBot('7379188784:AAH4yhvUn3Sk9YGBU4syGU__wL4s8dlZ0zU')
 
 
 @bot.message_handler(commands=['help', 'start'])
@@ -23,7 +23,7 @@ def msg(message):
     if message.text == 'главное меню':
         main_win(message)
     else:
-        bot.send_message(message.chat.id, '<b>Неизвестная команда</b>',
+        bot.send_message(message.chat.id, '<b>Неизвестная команда:</b>',
                          parse_mode='html')
         main_win(message)
 
@@ -52,6 +52,11 @@ def callback_message(callback):
         send_usefull_sources(callback.message)
     else:
         send_faq_answer(callback)
+
+
+def main_win(message):
+    message_text = "<b>главное меню</b>"
+    bot.send_message(message.chat.id, message_text, parse_mode='html', reply_markup=main_mess_markup())
 
 
 def send_usefull_sources(message):
@@ -129,24 +134,6 @@ def send_faq_answer(callback):
     bot.send_message(callback.message.chat.id, answer, parse_mode='html', reply_markup=main_mess_markup())
 
 
-def markup_for_instr_and_rect():
-    markup = types.InlineKeyboardMarkup()
-    markup_list = ['Рекомендации по VPN', 'Менеджеры паролей',
-                   'Антивирусные программы', 'Браузеры и расширения', 'Шифрование данных']
-    for mark_text in markup_list:
-        markup.add(types.InlineKeyboardButton(mark_text, callback_data=mark_text))
-    return markup
-
-
-def main_mess_markup():
-    markup = types.InlineKeyboardMarkup()
-    markup_list = ['Получить совет', 'Инструменты и рекомендации', "Полезные ресурсы и ссылки"
-                   'Часто задаваемые вопросы (FAQ)']
-    for mark_text in markup_list:
-        button = types.InlineKeyboardButton(mark_text, callback_data=mark_text)
-        markup.add(button)
-    return markup
-
 
 def rand_adv():
     advList = [
@@ -163,21 +150,22 @@ def rand_adv():
     return choice(advList)
 
 
-def main_win(message):
-    message_text = "<b>главное меню</b>"
-    bot.send_message(message.chat.id, message_text, parse_mode='html', reply_markup=main_mess_markup())
-
-
-def main_mess_show(message):
-    bot.send_message(message.chat.id, 'Выберите:', reply_markup=main_mess_markup())
+def markup_for_instr_and_rect():
+    markup = types.InlineKeyboardMarkup()
+    markup_list = ['Рекомендации по VPN', 'Менеджеры паролей',
+                   'Антивирусные программы', 'Браузеры и расширения', 'Шифрование данных']
+    for mark_text in markup_list:
+        markup.add(types.InlineKeyboardButton(mark_text, callback_data=mark_text))
+    return markup
 
 
 def main_mess_markup():
     markup = types.InlineKeyboardMarkup()
-    markup_list = ['Получить совет', 'Инструменты и рекомендации',
-                   'Часто задаваемые вопросы (FAQ)', 'Полезные ресурсы и ссылки']
+    markup_list = ['Получить совет', 'Инструменты и рекомендации', "Полезные ресурсы и ссылки"
+                   'Часто задаваемые вопросы (FAQ)']
     for mark_text in markup_list:
-        markup.add(types.InlineKeyboardButton(mark_text, callback_data=mark_text))
+        button = types.InlineKeyboardButton(mark_text, callback_data=mark_text)
+        markup.add(button)
     return markup
 
 
